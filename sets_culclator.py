@@ -34,6 +34,10 @@ def unionn(X,Y):
     return result
 
 
+def difer(x, y):
+    return x-y
+
+
 def vyraz(A, B, C, U):
     x = set((A & (U - B)) | ((U - A) & B)) & ((U - C) & ((U - C) | B))
     return x

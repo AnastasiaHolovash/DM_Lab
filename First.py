@@ -1,6 +1,5 @@
 from tkinter import *
 import random
-import pickle
 import sets_culclator as s_culc
 
 
@@ -123,16 +122,19 @@ def random_generation():
     lenC['state'] = NORMAL
 
 
-def save_to_file(x):
-    f = open('Результат.txt', 'ab')
-    pickle.dump(x, f)
-    f.close()
+def save_to_file(event):
+    with open("Результат.txt", 'w') as f:
+        f.write(str(event))
 
 
-def save_to_file_2(x):
-    f = open('Результат_2.txt', 'ab')
-    pickle.dump(x, f)
-    f.close()
+def save_to_file_2(event):
+    with open("Результат_2.txt", 'w') as f:
+        f.write(str(event))
+
+
+def save_to_file_3(event):
+    with open("Результат_3.txt", 'w') as f:
+        f.write(str(event))
 
 
 def window2():
@@ -226,7 +228,7 @@ def window3():
 
     but = Button(slave, text='Зберегти в файл', font='Arial 16')
     but.grid(column=1, row=5)
-    but.bind("<Button-1>", save_to_file(s_culc.vyraz(A, B, C, U)))
+    but.bind("<Button-1>", save_to_file_2(s_culc.vyraz(A, B, C, U)))
     but.bind("<Button-1>", but_disable)
 
     Label(slave, text='Завдання:', font='Arial 14 bold').grid(column=0, row=0, sticky=W, columnspan=2)
@@ -239,45 +241,97 @@ def window3():
 
 def window4():
     slave_2 = Toplevel(root)
-    slave_2.title('Обчислення 2 виразу')
+    slave_2.title('Обчислення 2-го виразу')
     slave_2.grab_set()
     slave_2.focus_set()
-    global Dx, Fx
-    Dx = s_culc.vyraz(A, B, C, U)
-    Fx = gener_f(s_culc.vyraz(A, B, C, U))
-
+    global x, y
+    x = s_culc.notX(B, U)
+    y = s_culc.notX(A, U)
+    """
     def show():
         lf = LabelFrame(slave_2, text="Множина F", font='Arial 12')
         lf.grid(column=0, row=7, sticky=W, columnspan=4)
         Label(lf, text='F = {d}\n'.format(d=Fx),
               font='Arial 14', justify=LEFT, height=2).grid(column=0, row=1, columnspan=4)
-
+    """
     def show_2():
         lf = LabelFrame(slave_2, text="Розв'язок", font='Arial 12')
         lf.grid(column=0, row=8, sticky=W, columnspan=4)
-        Label(lf, text='X = {d}\n'.format(d=s_culc.vyraz_2(Fx, Dx, U)),
+        Label(lf, text='Z = {z}\n'.format(z=s_culc.difer(x, y)),
               font='Arial 14', justify=LEFT, height=2).grid(column=0, row=1, sticky=W, columnspan=4)
 
     def but_disable(event):
+        print(event)
         but['text'] = 'Збережено'
         but['state'] = DISABLED
 
-    Label(slave_2, text='Множина:\n''D = {}'.format(Dx), font='Arial 14 bold')\
-        .grid(column=0, row=1, sticky=W, columnspan=4)
+    Label(slave_2, text='Множини:\n'
+                        'X = {}\n'
+                        'Y = {}'
+                        .format(x, y), font='Arial 14 bold').grid(column=0, row=1, sticky=W, columnspan=4)
 
-    Button(slave_2, text="Генерувати F", font="Arial 18", command=show).grid(column=0, row=2)
+    # Button(slave_2, text="Генерувати F", font="Arial 18", command=show).grid(column=0, row=2)
     Button(slave_2, text="Показати розв'язок", font="Arial 18", command=show_2).grid(column=0, row=6)
-    but = Button(slave_2, text='Зберегти в файл', font='Arial 18', command=save_to_file_2(s_culc.vyraz_2(Fx, Dx, U)))
+    but = Button(slave_2, text='Зберегти в файл', font='Arial 18', command=save_to_file_3(s_culc.difer(x, y)))
     but.grid(column=0, row=3)
     but.bind("<Button-1>", but_disable)
 
     Label(slave_2, text='Завдання:', font='Arial 14 bold') \
         .grid(column=0, row=0, sticky=W, columnspan=4)
-    photo = PhotoImage(file="X_task.png")
+    photo = PhotoImage(file="Z_task.png")
     photo_but = Button(slave_2)
     photo_but.config(image=photo, width="220", height="55")
     photo_but.grid(column=1, row=0, columnspan=4)
     slave_2.mainloop()
+
+
+def window5():
+    slave = Toplevel(root)
+    slave.title('Перевірка результатів')
+    slave.grab_set()
+    slave.focus_set()
+
+    f2 = open('Результат.txt', 'r')
+    f3 = open('Результат_2.txt', 'r')
+    f4 = open('Результат_3.txt', 'r')
+
+    d1 = f2.read()
+    d2 = f3.read()
+    z1 = f4.read()
+    z2 = str(x - y)
+
+    rez1 = 'Результати сходяться :)' if d1 == d2 else 'Помилка в обчисленні :('
+    rez2 = 'Результати сходяться :)' if z1 == z2 else 'Помилка в обчисленні :('
+
+    def but():
+        Label(slave, text=rez1, font="Arial 12", fg='green').grid(column=0, row=3, sticky=W, columnspan=2)
+        Label(slave, text=rez2, font="Arial 12", fg='green').grid(column=0, row=9, sticky=W, columnspan=2)
+
+    lf1 = LabelFrame(slave, text='Множина D', font='Arial 12')
+    lf2 = LabelFrame(slave, text='Множина Z', font='Arial 12')
+    lf1.grid(column=0, row=1, sticky=W, columnspan=2, rowspan=2)
+    lf2.grid(column=0, row=7, sticky=W, columnspan=2, rowspan=2)
+
+    #Label(slave, text='Результати обчислень', font='Arial 14 bold').grid(column=0, row=0, columnspan=2)
+    Label(lf1, text='За початковим виразом:\n'
+                    'D = ((A & ¬B) & (¬A & B)) & (¬C & (¬C | B)) =\n\t\t= {}'.format(d1),
+          font="Arial 14", justify=LEFT)\
+        .grid(column=0, row=1, sticky=W, columnspan=2)
+    Label(lf1, text='За спрощеним виразом:\n'
+                    'D = (A ∆ B) & ¬C = {}'.format(d2), font="Arial 14", justify=LEFT)\
+        .grid(column=0, row=2, sticky=W, columnspan=2)
+
+    Label(slave, text='\t').grid(column=0, row=6, sticky=W, columnspan=2)
+
+    Label(lf2, text='Z(власний алгоритм) = {}'.format(z1), font="Arial 14", justify=LEFT)\
+        .grid(column=0, row=7, sticky=W, columnspan=2)
+    Label(lf2, text='Z(алгоритм Python (X \ Y)) = {}'.format(z2), font="Arial 14", justify=LEFT)\
+        .grid(column=0, row=8, sticky=W, columnspan=2)
+
+    Label(slave, text='   ').grid(column=2, row=2, rowspan=2)
+    Label(slave, text='\t').grid(column=0, row=11)
+
+    Button(slave, text='Порівняти результати', font="Arial 18", command=but).grid(column=0, row=12)
 
 
 root = Tk()
@@ -290,6 +344,7 @@ filemenu = Menu(menubar, tearoff=0)
 filemenu.add_command(label="Window2", command=window2)
 filemenu.add_command(label="Window3", command=window3)
 filemenu.add_command(label="Window4", command=window4)
+filemenu.add_command(label="Window5", command=window5)
 
 menubar.add_cascade(label="Windows", menu=filemenu)
 root.config(menu=menubar)
