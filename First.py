@@ -1,7 +1,8 @@
 from tkinter import *
 import random
 import original_expression as s_culc
-
+import simplified_expression as simpl_exp
+import second_expression as exp_2
 
 def variant(g, n):
     return (n+g % 60) % 30+1
@@ -160,7 +161,7 @@ def window2():
                       f4=(U - C) | B,
                       f5=(U - C) & ((U - C) | B),
                       f6=((A & (U - B)) | ((U - A) & B)) & ((U - C) & ((U - C) | B)),
-                      rez=s_culc.vyraz(A, B, C, U)),
+                      rez=s_culc.origin_exp(A, B, C, U)),
               font='Arial 14', justify=LEFT).grid(column=0, row=5, sticky=W, columnspan=4)
 
     def but_disable(event):
@@ -173,7 +174,7 @@ def window2():
           font="Arial 14", justify=LEFT).grid(column=0, row=4, sticky=W, columnspan=3)
 
     Label(slave, text='Відповідь:\n'
-                      'D = {}\n'.format(s_culc.vyraz(A, B, C, U)),
+                      'D = {}\n'.format(s_culc.origin_exp(A, B, C, U)),
           font='Arial 14 bold').grid(column=0, row=2, sticky=W, columnspan=2)
 
     Button(slave, text="Показати розв'язок", font="Arial 16",
@@ -181,7 +182,7 @@ def window2():
 
     but = Button(slave, text='Зберегти в файл', font='Arial 16')
     but.grid(column=1, row=5)
-    but.bind("<Button-1>", save_to_file(s_culc.vyraz(A, B, C, U)))
+    but.bind("<Button-1>", save_to_file(s_culc.origin_exp(A, B, C, U)))
     but.bind("<Button-1>", but_disable)
 
     Label(slave, text='Завдання:', font='Arial 14 bold').grid(column=0, row=0, sticky=W, columnspan=2)
@@ -207,7 +208,7 @@ def window3():
               .format(
                       f1=(A - B) | (B - A),
                       f2=((A - B) | (B - A)) & (U - C),
-                      rez=s_culc.vyraz(A, B, C, U)),
+                      rez=simpl_exp.simplified_exp(A, B, C, U)),
               font='Arial 14', justify=LEFT).grid(column=0, row=5, sticky=W, columnspan=4)
 
     def but_disable(event):
@@ -220,7 +221,7 @@ def window3():
           font="Arial 14", justify=LEFT).grid(column=0, row=4, sticky=W, columnspan=3)
 
     Label(slave, text='Відповідь:\n'
-                      'D = {}\n'.format(s_culc.vyraz(A, B, C, U)),
+                      'D = {}\n'.format(simpl_exp.simplified_exp(A, B, C, U)),
           font='Arial 14 bold').grid(column=0, row=2, sticky=W, columnspan=2)
 
     Button(slave, text="Показати розв'язок", font="Arial 16",
@@ -228,7 +229,7 @@ def window3():
 
     but = Button(slave, text='Зберегти в файл', font='Arial 16')
     but.grid(column=1, row=5)
-    but.bind("<Button-1>", save_to_file_2(s_culc.vyraz(A, B, C, U)))
+    but.bind("<Button-1>", save_to_file_2(simpl_exp.simplified_exp(A, B, C, U)))
     but.bind("<Button-1>", but_disable)
 
     Label(slave, text='Завдання:', font='Arial 14 bold').grid(column=0, row=0, sticky=W, columnspan=2)
@@ -257,7 +258,7 @@ def window4():
     def show_2():
         lf = LabelFrame(slave_2, text="Розв'язок", font='Arial 12')
         lf.grid(column=0, row=8, sticky=W, columnspan=4)
-        Label(lf, text='Z = {z}\n'.format(z=s_culc.difer(x, y)),
+        Label(lf, text='Z = {z}\n'.format(z=exp_2.difference(x, y)),
               font='Arial 14', justify=LEFT, height=2).grid(column=0, row=1, sticky=W, columnspan=4)
 
     def but_disable(event):
