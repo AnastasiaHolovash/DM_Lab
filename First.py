@@ -1,6 +1,6 @@
 from tkinter import *
 import random
-import sets_culclator as s_culc
+import original_expression as s_culc
 
 
 def variant(g, n):
@@ -187,7 +187,7 @@ def window2():
     Label(slave, text='Завдання:', font='Arial 14 bold').grid(column=0, row=0, sticky=W, columnspan=2)
     photo = PhotoImage(file="D_task.png")
     photo_but = Button(slave)
-    photo_but.config(image=photo, width="646", height="85")
+    photo_but.config(image=photo, width="669", height="70")
     photo_but.grid(column=0, row=1, columnspan=2)
     slave.mainloop()
 
@@ -234,7 +234,7 @@ def window3():
     Label(slave, text='Завдання:', font='Arial 14 bold').grid(column=0, row=0, sticky=W, columnspan=2)
     photo = PhotoImage(file="D_simplified.png")
     photo_but = Button(slave)
-    photo_but.config(image=photo, width="646", height="85")
+    photo_but.config(image=photo, width="267", height="59")
     photo_but.grid(column=0, row=1, columnspan=2)
     slave.mainloop()
 
@@ -280,7 +280,7 @@ def window4():
         .grid(column=0, row=0, sticky=W, columnspan=4)
     photo = PhotoImage(file="Z_task.png")
     photo_but = Button(slave_2)
-    photo_but.config(image=photo, width="220", height="55")
+    photo_but.config(image=photo, width="190", height="52")
     photo_but.grid(column=1, row=0, columnspan=4)
     slave_2.mainloop()
 
@@ -353,7 +353,7 @@ Label(root, text="Виконала \n"
                  "Головаш Анастасія Василівна\n"
                  "Група ІВ-82\n"
                  "Номер у списку: 6\n"
-                 "Варіант: 29", font="Arial 14", width=35, height=5, justify=LEFT)\
+                 "Варіант: {}".format(variant(82, 6)), font="Arial 14", width=35, height=5, justify=LEFT)\
     .grid(column=4, row=0, columnspan=3)
 
 var = IntVar()
