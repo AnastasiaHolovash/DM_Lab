@@ -248,6 +248,7 @@ def window4():
     global x, y
     x = s_culc.notX(B, U)
     y = s_culc.notX(A, U)
+
     """
     def show():
         lf = LabelFrame(slave_2, text="Множина F", font='Arial 12')
@@ -273,7 +274,7 @@ def window4():
 
     # Button(slave_2, text="Генерувати F", font="Arial 18", command=show).grid(column=0, row=2)
     Button(slave_2, text="Показати розв'язок", font="Arial 18", command=show_2).grid(column=0, row=6)
-    but = Button(slave_2, text='Зберегти в файл', font='Arial 18', command=save_to_file_3(s_culc.difer(x, y)))
+    but = Button(slave_2, text='Зберегти в файл', font='Arial 18', command=save_to_file_3(exp_2.second_exp(A, B, U)))
     but.grid(column=0, row=3)
     but.bind("<Button-1>", but_disable)
 
@@ -299,7 +300,10 @@ def window5():
     d1 = f2.read()
     d2 = f3.read()
     z1 = f4.read()
-    z2 = str(x - y)
+    if not x:
+        z2 = {}
+    else:
+        z2 = str(x - y)
 
     rez1 = 'Результати сходяться :)' if d1 == d2 else 'Помилка в обчисленні :('
     rez2 = 'Результати сходяться :)' if z1 == z2 else 'Помилка в обчисленні :('

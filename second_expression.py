@@ -14,7 +14,9 @@ def difference(A, B):
             C.append(i)
     return C
 
+# Обчислює заданий вираз (2)
+
 
 def second_exp(a, b, universalset):
     result = difference(oexp.notX(b, universalset), oexp.notX(a, universalset))
-    return result
+    return set(result)

@@ -12,6 +12,10 @@ def sym_dif(a, b):
             c.append(b[j])
     return (c)
 
+# Обчислює спрощений вираз (1)
+
+
 def simplified_exp(A, B, C, U):
+    """U - універсальна множина"""
     result = set(oexp.intersec(sym_dif(A, B), oexp.notX(C, U)))
     return result
